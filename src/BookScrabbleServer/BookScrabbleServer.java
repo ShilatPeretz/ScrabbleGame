@@ -18,23 +18,7 @@ public class BookScrabbleServer {
         this.gamePort=6667;
         this.gameServer = new MyServer(gamePort, new BookScrabbleHandler());
     };
-    public boolean query(String query){
-        String res="";
-        try {
-            Socket server=new Socket("localhost",gamePort); /**??????*/
-            PrintWriter out=new PrintWriter(server.getOutputStream());
-            Scanner in=new Scanner(server.getInputStream());
-            out.println(query);
-            out.flush();
-            res=in.next();
-            in.close();
-            out.close();
-            server.close();
-        } catch (IOException e) {
-            System.out.println("IOException thrown");
-        }
-        return (res.equals("true")?true:false);
-    }
+
 
     public void run(){
         this.gameServer.start();
