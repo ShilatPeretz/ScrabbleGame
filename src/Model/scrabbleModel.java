@@ -19,6 +19,7 @@ public class scrabbleModel {
     private Board board;
     private Bag bag;
     private boolean stop;
+    private List<String> dictionarybooks = Arrays.asList("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt");
     private Map<String, Player> players = new HashMap<>();
 
     //functions
@@ -70,7 +71,10 @@ public class scrabbleModel {
     }
 
     private String BuildQueryFromWord(Word word, String queryID) {
-        StringBuilder stringBuilder = new StringBuilder(queryID + ",s1.txt,s2.txt,");
+        StringBuilder stringBuilder = new StringBuilder(queryID+",");
+        for (String book: dictionarybooks){
+            stringBuilder.append(book+",");
+        }
         stringBuilder.append(word.getWord());
         return stringBuilder.toString();
     }
