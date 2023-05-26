@@ -19,7 +19,6 @@ public class BookScrabbleServer {
         this.gameServer = new MyServer(gamePort, new BookScrabbleHandler());
     };
 
-
     public void run(){
         this.gameServer.start();
     }

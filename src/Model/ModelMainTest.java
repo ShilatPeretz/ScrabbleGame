@@ -21,6 +21,7 @@ public class ModelMainTest {
         return ts;
     }
     public static void TestAddingWords(scrabbleModel scrabbleModel){
+        System.out.println("here");
         Word horn=new Word(get("HORN"), 7, 5, false);
         if(scrabbleModel.TryAddWordToBoard(horn)!=14)
             System.out.println("problem in placeWord for 1st word (-10)");
@@ -50,7 +51,7 @@ public class ModelMainTest {
             System.out.println("ATONE should be 26 (-15)");
     }
     public static void TestCallengingServer(scrabbleModel scrabbleModel){
-        Word horn=new Word(get("HORN"), 7, 5, false);
+        Word horn=new Word(get("THE"), 7, 5, false);
         if(scrabbleModel.CallengeServer(horn)!=28)
             System.out.println("problem in placeWord for 1st word (-10)");
     }
