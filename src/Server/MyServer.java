@@ -36,7 +36,6 @@ public class MyServer {
                         clientSocket.getOutputStream());
                 cleanClientSocket();
             } catch (IOException e) {
-                //System.out.println("We continue here");
                 // No need for, throw new RuntimeException(e);
             }
         }
@@ -52,6 +51,7 @@ public class MyServer {
             try {
                 clientSocket.close();
             } catch (IOException e) {
+                System.out.println("problem cleaning client socket");
                 throw new RuntimeException(e);
             }
         }
@@ -62,6 +62,7 @@ public class MyServer {
             try {
                 serverSocket.close();
             } catch (IOException e) {
+                System.out.println("problem validating servers close");
                 throw new RuntimeException(e);
             }
         }
@@ -73,6 +74,7 @@ public class MyServer {
             stop = true;
             serverSocket.close();
         } catch (IOException e) {
+            System.out.println("problem closing the server");
             throw new RuntimeException(e);
         }finally {
             validate_close();

@@ -14,17 +14,24 @@ public class BookScrabbleHandler implements ClientHandler{
         OutToClient=new PrintWriter(outToClient);
         String[] books = new String[0];
         try {
-            books = InFromClient.readLine().split(",");
+            String in = InFromClient.readLine();
+            System.out.println(in+"--------------");
+            books = in.split(",");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        for(String book:books){
+            System.out.println(book+"1");
+        }
         boolean result = false;
         if(books[0].equals("Q")){ //Q for query
+            System.out.println("qqqqqqqqq");
             result=dictionaryManager.query(Arrays.copyOfRange(books,1,books.length));
         }
         else if(books[0].equals("C")){ //C for challenge
             result=dictionaryManager.challenge(Arrays.copyOfRange(books,1, books.length));
         }
+        System.out.println("result"+result);
         OutToClient.println(""+result);
         OutToClient.flush();
     }

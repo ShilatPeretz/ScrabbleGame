@@ -33,7 +33,9 @@ public class Word {
     public String getWord(){
         StringBuilder sb
                 = new StringBuilder("");
-        sb.append(tiles);
+        for(Tile tile: tiles){
+            sb.append(tile.letter);
+        }
         return sb.toString();
     }
 }

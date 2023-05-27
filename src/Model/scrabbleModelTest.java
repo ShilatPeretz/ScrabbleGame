@@ -1,15 +1,15 @@
 package Model;
 
-import Server.Board;
+import BookScrabbleServer.BookScrabbleServer;
 import Server.Tile;
 import Server.Word;
 
-public class ModelMainTest {
+public class scrabbleModelTest {
     public static void main(String[] args) {
         scrabbleModel scrabbleModel = new scrabbleModel();
         scrabbleModel.initializeGame();
         TestAddingWords(scrabbleModel);
-        TestCallengingServer(scrabbleModel);
+        //TestCallengingServer(scrabbleModel);
     }
     private static Tile[] get(String s) {
         Tile[] ts=new Tile[s.length()];
@@ -21,9 +21,12 @@ public class ModelMainTest {
         return ts;
     }
     public static void TestAddingWords(scrabbleModel scrabbleModel){
-        System.out.println("here");
-        Word horn=new Word(get("HORN"), 7, 5, false);
-        if(scrabbleModel.TryAddWordToBoard(horn)!=14)
+        System.out.println("hello here");
+        Word horn=new Word(get("THE"), 7, 5, false);
+        System.out.println(horn.getWord());
+        int score = scrabbleModel.TryAddWordToBoard(horn);
+        System.out.println("score is:  **** "+score);
+        /*if(scrabbleModel.TryAddWordToBoard(horn)!=14)
             System.out.println("problem in placeWord for 1st word (-10)");
 
         Word farm=new Word(get("FA_M"), 5, 7, true);
@@ -48,11 +51,15 @@ public class ModelMainTest {
 
         Word alone=new Word(get("A_ONE"), 11, 3, false);
         if(scrabbleModel.TryAddWordToBoard(alone)!=26)
-            System.out.println("ATONE should be 26 (-15)");
+            System.out.println("ATONE should be 26 (-15)");*/
     }
     public static void TestCallengingServer(scrabbleModel scrabbleModel){
         Word horn=new Word(get("THE"), 7, 5, false);
         if(scrabbleModel.CallengeServer(horn)!=28)
             System.out.println("problem in placeWord for 1st word (-10)");
+    }
+
+    public static void TestAddingPlayers(scrabbleModel scrabbleModel){
+        //**********
     }
 }

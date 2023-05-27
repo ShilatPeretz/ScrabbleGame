@@ -1,10 +1,10 @@
 package BookScrabbleServer;
 
-public class ServerMainTest {
+public class BookScrabbleServerTest {
 
     public static void main(String[] args) {
         BookScrabbleServer bookScrabbleServer = new BookScrabbleServer();
-        bookScrabbleServer.run();
+        bookScrabbleServer.start();
     }
 
 }
