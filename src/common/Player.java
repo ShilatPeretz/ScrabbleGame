@@ -10,6 +10,13 @@ public class Player {
     private Map<Character, Tile> playersTiles;
     private int score;
 
+    public Map<Character,Tile> getPlayersTiles() {
+        return playersTiles;
+    }
+
+    public int getScore() {
+        return score;
+    }
     public Player(String name, Tile.Bag bag){
         this.playersTiles=new HashMap<>();
         this.name=name;
@@ -27,5 +34,9 @@ public class Player {
             playersTiles.remove(ch);
         }
         completePlayersTiles(bag);
+    }
+    public void updateScore(int i)
+    {
+        score+=i;
     }
 }
