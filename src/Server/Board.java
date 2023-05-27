@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Board {
     private enum bonus{TW,DW,TL,DL,RG,STAR}
+    private DictionaryManager dm = new DictionaryManager();
     private bonus[][] bonuses={
             {bonus.TW, bonus.RG, bonus.RG, bonus.DL, bonus.RG, bonus.RG, bonus.RG, bonus.TW, bonus.RG, bonus.RG, bonus.RG, bonus.DL, bonus.RG, bonus.RG, bonus.TW},
     {bonus.RG, bonus.DW, bonus.RG, bonus.RG, bonus.RG, bonus.TL, bonus.RG, bonus.RG, bonus.RG, bonus.TL, bonus.RG, bonus.RG, bonus.RG, bonus.DW, bonus.RG},
@@ -219,8 +220,12 @@ public class Board {
 
     public boolean dictionaryLegal (Word word)
     {
-        Dictionary dictionary = new Dictionary();
-        return dictionary.query(word.getWord());
+        if(dm.query("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()) == true)
+            return true;
+        else if(dm.challenge("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()) == true)
+            return true;
+        return false;
+
     }
 
     public ArrayList<Word> check_row_colum(Word word) {

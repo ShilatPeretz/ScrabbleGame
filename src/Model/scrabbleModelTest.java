@@ -8,10 +8,10 @@ public class scrabbleModelTest {
     public static void main(String[] args) {
         scrabbleModel scrabbleModel = new scrabbleModel();
         scrabbleModel.initializeGame();
+        TestAddingPlayers(scrabbleModel);
         TestAddingWords(scrabbleModel);
-        //TestCallengingServer(scrabbleModel);
-        //TestAddingPlayers(scrabbleModel);
-        //scrabbleModel.finalizeGame();
+        TestCallengingServer(scrabbleModel);
+        scrabbleModel.finalizeGame();
     }
     private static Tile[] get(String s) {
         Tile[] ts=new Tile[s.length()];
@@ -24,42 +24,48 @@ public class scrabbleModelTest {
     }
     public static void TestAddingWords(scrabbleModel scrabbleModel){
         Word horn=new Word(get("HORN"), 7, 5, false);
-        int score = scrabbleModel.TryAddWordToBoard(horn);
-        System.out.println("score is:  **** "+score);
-        /*if(scrabbleModel.TryAddWordToBoard(horn)!=14)
+        //System.out.println("score is:  **** "+score);
+        int score = scrabbleModel.TryAddWordToBoard(horn, "player1");
+        if(score!=14)
             System.out.println("problem in placeWord for 1st word (-10)");
 
         Word farm=new Word(get("FA_M"), 5, 7, true);
-        if(scrabbleModel.TryAddWordToBoard(farm)!=9)
+        score = scrabbleModel.TryAddWordToBoard(farm, "player2");
+        if(score!=9)
             System.out.println("problem in placeWord for 2ed word (-10)");
 
         Word paste=new Word(get("PASTE"), 9, 5, false);
-        if(scrabbleModel.TryAddWordToBoard(paste)!=25)
+        score = scrabbleModel.TryAddWordToBoard(paste, "player3");
+        if(score!=25)
             System.out.println("problem in placeWord for 3ed word (-10)");
 
         Word mob=new Word(get("_OB"), 8, 7, false);
-        if(scrabbleModel.TryAddWordToBoard(mob)!=18)
+        score = scrabbleModel.TryAddWordToBoard(mob, "player4");
+        if(score!=18)
             System.out.println("mob point sould be 18");
-
-        Word bit=new Word(get("BIT"), 10, 4, false);
-        if(scrabbleModel.TryAddWordToBoard(bit)!=22)
-            System.out.println("bitpoint should be 22 (-15)");
-
-        Word sbta=new Word(get("S_TA"), 9, 4, true);
-        if(scrabbleModel.TryAddWordToBoard(sbta)!=28)
-            System.out.println("SBTA should be 28 (-15)");
-
-        Word alone=new Word(get("A_ONE"), 11, 3, false);
-        if(scrabbleModel.TryAddWordToBoard(alone)!=26)
-            System.out.println("ATONE should be 26 (-15)");*/
+        System.out.println("done");
     }
     public static void TestCallengingServer(scrabbleModel scrabbleModel){
-        Word horn=new Word(get("THE"), 7, 5, false);
-        if(scrabbleModel.CallengeServer(horn)!=28)
+        Word horn=new Word(get("HORN"), 7, 5, false);
+        int score = scrabbleModel.CallengeServer(horn, "player1");
+        if(score!=28)
             System.out.println("problem in placeWord for 1st word (-10)");
+
+        Word farm=new Word(get("FA_M"), 5, 7, true);
+        score = scrabbleModel.CallengeServer(farm, "player2");
+        if(score!=18)
+            System.out.println("problem in placeWord for 2ed word (-10)");
     }
 
     public static void TestAddingPlayers(scrabbleModel scrabbleModel){
-        //**********
+        scrabbleModel.addPlayer("player1");
+        scrabbleModel.addPlayer("player2");
+        scrabbleModel.addPlayer("player3");
+        scrabbleModel.addPlayer("player4");
+        scrabbleModel.addPlayer("player5");
+        int num = scrabbleModel.getNumberOfPlayers();
+        if(num != 4){
+            System.out.println("you have problem with adding players");
+        }
     }
 }

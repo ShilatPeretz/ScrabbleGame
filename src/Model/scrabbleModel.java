@@ -109,6 +109,10 @@ public class scrabbleModel implements ClientHandler {
         players.put(name,player);
     }
 
+    public int getNumberOfPlayers(){
+        return players.size();
+    }
+
     @Override
     public void handleClient(InputStream inFromclient, OutputStream outToClient) {
         PrintWriter ClientOut = new PrintWriter(outToClient, true);
