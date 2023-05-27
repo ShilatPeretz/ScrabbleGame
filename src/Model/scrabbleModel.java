@@ -57,14 +57,17 @@ public class scrabbleModel implements ClientHandler {
         return stringBuilder.toString();
     }
 
-    public int TryAddWordToBoard(Word word) {
+    public int TryAddWordToBoard(Word word, String playerName) {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "Q");
         if (!queryServer(query))
             return -1;
         System.out.println("got to here - only need to place word on board and get score");
-        return board.tryPlaceWord(word);
+        int score = board.tryPlaceWord(word);
+        players.get(playerName).updateScore(score);
+        updatePlayersTiles(playerName, word);
+        return score;
     }
 
     private boolean queryServer(String query) {
@@ -82,13 +85,16 @@ public class scrabbleModel implements ClientHandler {
         return (result.equals("true"));
     }
 
-    public int CallengeServer(Word word) {
+    public int CallengeServer(Word word, String playerName) {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "C");
         if(!queryServer(query))
             return -1;
-        return board.tryPlaceWord(word)*2; //return double the score
+        int score = board.tryPlaceWord(word)*2;
+        players.get(playerName).updateScore(score);
+        updatePlayersTiles(playerName, word);
+        return score; //return double the score
     }
 
     //players functions
