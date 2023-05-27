@@ -10,6 +10,8 @@ public class scrabbleModelTest {
         scrabbleModel.initializeGame();
         TestAddingWords(scrabbleModel);
         //TestCallengingServer(scrabbleModel);
+        //TestAddingPlayers(scrabbleModel);
+        //scrabbleModel.finalizeGame();
     }
     private static Tile[] get(String s) {
         Tile[] ts=new Tile[s.length()];
