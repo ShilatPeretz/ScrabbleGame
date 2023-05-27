@@ -33,11 +33,7 @@ public class DictionaryManager {
 
     public boolean query(String... books){
         String[] AllBooks = Arrays.copyOf(books, books.length-1);
-        System.out.println("helllooooooo");
         addAllBooksToDictionary(AllBooks);
-        for(String book:AllBooks){
-            System.out.println(book+"***");
-        }
         boolean flag = false;
         String word = books[books.length-1];
         for(String book: AllBooks){

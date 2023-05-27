@@ -21,9 +21,7 @@ public class scrabbleModelTest {
         return ts;
     }
     public static void TestAddingWords(scrabbleModel scrabbleModel){
-        System.out.println("hello here");
-        Word horn=new Word(get("THE"), 7, 5, false);
-        System.out.println(horn.getWord());
+        Word horn=new Word(get("HORN"), 7, 5, false);
         int score = scrabbleModel.TryAddWordToBoard(horn);
         System.out.println("score is:  **** "+score);
         /*if(scrabbleModel.TryAddWordToBoard(horn)!=14)

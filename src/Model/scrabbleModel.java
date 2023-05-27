@@ -1,13 +1,11 @@
 package Model;
 
-import BookScrabbleServer.BookScrabbleServer;
 import Server.*;
 import Server.Tile.Bag;
 import common.Player;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.*;
 
 public class scrabbleModel implements ClientHandler {
@@ -19,7 +17,7 @@ public class scrabbleModel implements ClientHandler {
     private int serverPort = 6667;
     private int clientServerPort = 6668;
     private MyServer clientsServer;
-    private List<String> dictionarybooks = Arrays.asList("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt");
+    private List<String> dictionarybooks = Arrays.asList("file1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt");
     private Map<String, Player> players = new HashMap<>();
 
 
@@ -51,7 +49,6 @@ public class scrabbleModel implements ClientHandler {
     }
 
     private String BuildQueryFromWord(Word word, String queryID) {
-        System.out.println(word.Get_vertical()+ word.getWord());
         StringBuilder stringBuilder = new StringBuilder(queryID+",");
         for (String book: dictionarybooks){
             stringBuilder.append(book+",");
@@ -66,20 +63,18 @@ public class scrabbleModel implements ClientHandler {
         String query = BuildQueryFromWord(word, "Q");
         if (!queryServer(query))
             return -1;
-        System.out.println("got to here");
+        System.out.println("got to here - only need to place word on board and get score");
         return board.tryPlaceWord(word);
     }
 
     private boolean queryServer(String query) {
-        System.out.println("query the sever");
-        System.out.println(query);
+        //System.out.println(query);
         String result = "";
         try {
             PrintWriter BookScrabbleOut = new PrintWriter(bookScrabbleServerSocket.getOutputStream(), true);
             BufferedReader BookScrabbleIn = new BufferedReader(new InputStreamReader(bookScrabbleServerSocket.getInputStream()));
             BookScrabbleOut.println(query);
             result = BookScrabbleIn.readLine();
-            System.out.println(result+"********");
         } catch (IOException e) {
             System.out.println("exception thrown while quering the server");
             throw new RuntimeException(e);
@@ -88,6 +83,8 @@ public class scrabbleModel implements ClientHandler {
     }
 
     public int CallengeServer(Word word) {
+        // -1 -> indicates word is not legal
+        // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "C");
         if(!queryServer(query))
             return -1;

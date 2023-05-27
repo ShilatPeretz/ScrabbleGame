@@ -25,7 +25,7 @@ public class MyServer {
             serverSocket.setSoTimeout(1000);
         } catch (IOException e) {
             // Need to throw here cause failed to start serverSocket as desired.
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
 
         while (!stop) {
@@ -36,6 +36,9 @@ public class MyServer {
                         clientSocket.getOutputStream());
                 cleanClientSocket();
             } catch (IOException e) {
+                // No need for, throw new RuntimeException(e);
+            }
+            catch (Exception e) {
                 // No need for, throw new RuntimeException(e);
             }
         }
