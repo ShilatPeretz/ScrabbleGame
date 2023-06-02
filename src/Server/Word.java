@@ -34,6 +34,9 @@ public class Word {
         StringBuilder sb
                 = new StringBuilder("");
         for(Tile tile: tiles){
+            if(tile == null){
+                continue;
+            }
             sb.append(tile.letter);
         }
         return sb.toString();

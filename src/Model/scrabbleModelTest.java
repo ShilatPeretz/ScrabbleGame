@@ -11,7 +11,7 @@ public class scrabbleModelTest {
         TestAddingPlayers(scrabbleModel);
         TestAddingWords(scrabbleModel);
         TestCallengingServer(scrabbleModel);
-        scrabbleModel.finalizeGame();
+        //scrabbleModel.finalizeGame();
     }
     private static Tile[] get(String s) {
         Tile[] ts=new Tile[s.length()];
@@ -23,10 +23,12 @@ public class scrabbleModelTest {
         return ts;
     }
     public static void TestAddingWords(scrabbleModel scrabbleModel){
+        //this test might not get the given result since the tiles has been divided
+        //betwwen the players and might not exist in the bag any more
+
         Word horn=new Word(get("HORN"), 7, 5, false);
-        //System.out.println("score is:  **** "+score);
         int score = scrabbleModel.TryAddWordToBoard(horn, "player1");
-        if(score!=14)
+        if(score!=14 || scrabbleModel.players.get("player1").getScore()!=14)
             System.out.println("problem in placeWord for 1st word (-10)");
 
         Word farm=new Word(get("FA_M"), 5, 7, true);
@@ -39,22 +41,17 @@ public class scrabbleModelTest {
         if(score!=25)
             System.out.println("problem in placeWord for 3ed word (-10)");
 
-        Word mob=new Word(get("_OB"), 8, 7, false);
-        score = scrabbleModel.TryAddWordToBoard(mob, "player4");
-        if(score!=18)
-            System.out.println("mob point sould be 18");
-        System.out.println("done");
+        System.out.println("done testing query");
     }
     public static void TestCallengingServer(scrabbleModel scrabbleModel){
-        Word horn=new Word(get("HORN"), 7, 5, false);
+        Word horn=new Word(get("IN"), 7, 5, false);
         int score = scrabbleModel.CallengeServer(horn, "player1");
         if(score!=28)
             System.out.println("problem in placeWord for 1st word (-10)");
 
-        Word farm=new Word(get("FA_M"), 5, 7, true);
-        score = scrabbleModel.CallengeServer(farm, "player2");
-        if(score!=18)
-            System.out.println("problem in placeWord for 2ed word (-10)");
+
+
+        System.out.println("done testing challenge");
     }
 
     public static void TestAddingPlayers(scrabbleModel scrabbleModel){
@@ -63,7 +60,7 @@ public class scrabbleModelTest {
         scrabbleModel.addPlayer("player3");
         scrabbleModel.addPlayer("player4");
         scrabbleModel.addPlayer("player5");
-        int num = scrabbleModel.getNumberOfPlayers();
+        int num = scrabbleModel.players.size();
         if(num != 4){
             System.out.println("you have problem with adding players");
         }

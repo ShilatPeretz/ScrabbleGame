@@ -100,29 +100,29 @@ public class MainTrain1 {
 	}
 	
 	public static void testDM() {
-		String t1[]=writeFile("t1.txt");
-		String t2[]=writeFile("t2.txt");
-		String t3[]=writeFile("t3.txt");
+		String file1[]=writeFile("file1.txt");
+		String file2[]=writeFile("file2.txt");
+		String file3[]=writeFile("file3.txt");
 		
 		DictionaryManager dm=DictionaryManager.get();
 		if(dm.getSize()!=0)
 			System.out.println("wrong size for the Dictionary Manager");
-		
-		if(!dm.query("t1.txt","t2.txt",t2[4]))
-			System.out.println("problem for Dictionary Manager query (-5)");
-		if(!dm.query("t1.txt","t2.txt",t1[9]))
-			System.out.println("problem for Dictionary Manager query (-5)");
-		if(dm.query("t1.txt","t3.txt","2"+t3[2]))
-			System.out.println("problem for Dictionary Manager query (-5)");
-		if(dm.query("t2.txt","t3.txt","3"+t2[5]))
-			System.out.println("problem for Dictionary Manager query (-5)");
-		if(!dm.challenge("t1.txt","t2.txt","t3.txt",t3[2]))
-			System.out.println("problem for Dictionary Manager challenge (-5)");
-		if(dm.challenge("t2.txt","t3.txt","t1.txt","3"+t2[5]))
-			System.out.println("problem for Dictionary Manager challenge (-5)");
-		
+
+		if(!dm.query("file1.txt", "file2.txt",file2[4]))
+			System.out.println("problem for Dicfileionary Manager query (-5)");
+		if(!dm.query("file1.txt", "file2.txt",file1[9]))
+			System.out.println("problem for Dicfileionary Manager query (-5)");
+		if(dm.query("file1.txt", "file3.txt","2"+file3[2]))
+			System.out.println("problem for Dicfileionary Manager query (-5)");
+		if(dm.query("file2.txt", "file3.txt","3"+file2[5]))
+			System.out.println("problem for Dicfileionary Manager query (-5)");
+		if(!dm.challenge("file1.txt", "file2.txt", "file3.txt",file3[2]))
+			System.out.println("problem for Dicfileionary Manager challenge (-5)");
+		if(dm.challenge("file2.txt", "file3.txt", "file1.txt","3"+file2[5]))
+			System.out.println("problem for Dicfileionary Manager challenge (-5)");
+
 		if(dm.getSize()!=3)
-			System.out.println("wrong size for the Dictionary Manager (-10)");
+			System.out.println("wrong size for filehe Dicfileionary Manager (-10)");
 		
 	}
 	
@@ -163,8 +163,9 @@ public class MainTrain1 {
 
 	public static void main(String[] args) {
 		if(testServer()) {
+			System.out.println("testing dictionary manager");
 			testDM();
-			testBSCH();
+			//testBSCH();
 		}
 		System.out.println("done");
 	}

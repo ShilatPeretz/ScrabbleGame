@@ -220,9 +220,14 @@ public class Board {
 
     public boolean dictionaryLegal (Word word)
     {
-        if(dm.query("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()) == true)
+//        if(dm.query("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()))
+//            return true;
+//        else if(dm.challenge("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()))
+//            return true;
+//        return false;
+        if(dm.query("file1.txt", word.getWord()))
             return true;
-        else if(dm.challenge("file1.txt","file2.txt","file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", word.getWord()) == true)
+        else if(dm.challenge("file1.txt", word.getWord()))
             return true;
         return false;
 

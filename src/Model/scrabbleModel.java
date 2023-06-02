@@ -11,14 +11,14 @@ import java.util.*;
 public class scrabbleModel implements ClientHandler {
     //data
     private String bookScrabbleServerHostname = "localhost";
-    private Socket bookScrabbleServerSocket;
     private Board board;
     private Bag bag;
     private int serverPort = 6667;
     private int clientServerPort = 6668;
     private MyServer clientsServer;
-    private List<String> dictionarybooks = Arrays.asList("file1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt");
-    private Map<String, Player> players = new HashMap<>();
+    //"file1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt"
+    private List<String> dictionarybooks = Arrays.asList("file1.txt");
+    public Map<String, Player> players = new HashMap<>();
 
 
     //functions
@@ -31,20 +31,9 @@ public class scrabbleModel implements ClientHandler {
 
     public void initializeGame() {
         clientsServer.start();
-        try {
-            bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, clientServerPort);
-        } catch (IOException e) {
-            System.out.println("exception thrown while trying to initialize the game ");
-            throw new RuntimeException(e);
-        }
     }
 
     public void finalizeGame() {
-        try {
-            bookScrabbleServerSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         clientsServer.close();
     }
 
@@ -71,13 +60,16 @@ public class scrabbleModel implements ClientHandler {
     }
 
     private boolean queryServer(String query) {
-        //System.out.println(query);
         String result = "";
         try {
+            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, clientServerPort);
             PrintWriter BookScrabbleOut = new PrintWriter(bookScrabbleServerSocket.getOutputStream(), true);
             BufferedReader BookScrabbleIn = new BufferedReader(new InputStreamReader(bookScrabbleServerSocket.getInputStream()));
             BookScrabbleOut.println(query);
             result = BookScrabbleIn.readLine();
+            BookScrabbleOut.close();
+            BookScrabbleIn.close();
+            bookScrabbleServerSocket.close();
         } catch (IOException e) {
             System.out.println("exception thrown while quering the server");
             throw new RuntimeException(e);
@@ -102,6 +94,7 @@ public class scrabbleModel implements ClientHandler {
         players.get(playername).removeTiles(word.getWord(), bag);
 
     }
+
     public void addPlayer(String name){
         if(players.size()==4)
             return;
@@ -109,9 +102,6 @@ public class scrabbleModel implements ClientHandler {
         players.put(name,player);
     }
 
-    public int getNumberOfPlayers(){
-        return players.size();
-    }
 
     @Override
     public void handleClient(InputStream inFromclient, OutputStream outToClient) {
@@ -120,6 +110,7 @@ public class scrabbleModel implements ClientHandler {
         String userInput;
 
         try {
+            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, clientServerPort);
             PrintWriter BookScrabbleOut = new PrintWriter(bookScrabbleServerSocket.getOutputStream(), true);
             BufferedReader BookScrabbleIn = new BufferedReader(new InputStreamReader(bookScrabbleServerSocket.getInputStream()));
             while ((userInput = ClientIn.readLine()) != null) {
