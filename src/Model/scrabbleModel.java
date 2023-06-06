@@ -3,12 +3,13 @@ package Model;
 import Server.*;
 import Server.Tile.Bag;
 import common.Player;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-public class scrabbleModel implements ClientHandler {
+public class scrabbleModel extends Observable implements ClientHandler {
     //data
     private String bookScrabbleServerHostname = "localhost";
     private Board board;
@@ -46,17 +47,19 @@ public class scrabbleModel implements ClientHandler {
         return stringBuilder.toString();
     }
 
-    public int TryAddWordToBoard(Word word, String playerName) {
+
+    public void TryAddWordToBoard(Word word, String playerName) {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "Q");
         if (!queryServer(query))
-            return -1;
+            return;
         System.out.println("got to here - only need to place word on board and get score");
         int score = board.tryPlaceWord(word);
         players.get(playerName).updateScore(score);
         updatePlayersTiles(playerName, word);
-        return score;
+        setChanged();
+        notifyObservers();
     }
 
     private boolean queryServer(String query) {
@@ -77,29 +80,35 @@ public class scrabbleModel implements ClientHandler {
         return (result.equals("true"));
     }
 
-    public int CallengeServer(Word word, String playerName) {
+    public void CallengeServer(Word word, String playerName) {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "C");
         if(!queryServer(query))
-            return -1;
+            return;
         int score = board.tryPlaceWord(word)*2;
         players.get(playerName).updateScore(score);
         updatePlayersTiles(playerName, word);
-        return score; //return double the score
+        setChanged();
+        notifyObservers();
     }
 
     //players functions
     private void updatePlayersTiles(String playername, Word word){
         players.get(playername).removeTiles(word.getWord(), bag);
-
     }
+
+//    public int getPlayersScore(String playername){
+//        return players.get(playername).getScore();
+//    }
 
     public void addPlayer(String name){
         if(players.size()==4)
             return;
         Player player = new Player(name, bag);
         players.put(name,player);
+        setChanged();
+        notifyObservers();
     }
 
 

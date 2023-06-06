@@ -27,29 +27,28 @@ public class scrabbleModelTest {
         //betwwen the players and might not exist in the bag any more
 
         Word horn=new Word(get("HORN"), 7, 5, false);
-        int score = scrabbleModel.TryAddWordToBoard(horn, "player1");
-        if(score!=14 || scrabbleModel.players.get("player1").getScore()!=14)
+        scrabbleModel.TryAddWordToBoard(horn, "player1");
+        if(scrabbleModel.players.get("player1").getScore()!=14)
+
             System.out.println("problem in placeWord for 1st word (-10)");
 
         Word farm=new Word(get("FA_M"), 5, 7, true);
-        score = scrabbleModel.TryAddWordToBoard(farm, "player2");
-        if(score!=9)
+        scrabbleModel.TryAddWordToBoard(farm, "player2");
+        if(scrabbleModel.players.get("player2").getScore()!=9)
             System.out.println("problem in placeWord for 2ed word (-10)");
 
         Word paste=new Word(get("PASTE"), 9, 5, false);
-        score = scrabbleModel.TryAddWordToBoard(paste, "player3");
-        if(score!=25)
+        scrabbleModel.TryAddWordToBoard(paste, "player3");
+        if(scrabbleModel.players.get("player3").getScore()!=25)
             System.out.println("problem in placeWord for 3ed word (-10)");
 
         System.out.println("done testing query");
     }
     public static void TestCallengingServer(scrabbleModel scrabbleModel){
         Word horn=new Word(get("IN"), 7, 5, false);
-        int score = scrabbleModel.CallengeServer(horn, "player1");
-        if(score!=28)
+        scrabbleModel.CallengeServer(horn, "player1");
+        if(scrabbleModel.players.get("player1").getScore()!=28)
             System.out.println("problem in placeWord for 1st word (-10)");
-
-
 
         System.out.println("done testing challenge");
     }
