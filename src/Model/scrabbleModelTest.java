@@ -7,11 +7,10 @@ import Server.Word;
 public class scrabbleModelTest {
     public static void main(String[] args) {
         scrabbleModel scrabbleModel = new scrabbleModel();
-        scrabbleModel.initializeGame();
         TestAddingPlayers(scrabbleModel);
         TestAddingWords(scrabbleModel);
         TestCallengingServer(scrabbleModel);
-        //scrabbleModel.finalizeGame();
+        scrabbleModel.finalizeGame();
     }
     private static Tile[] get(String s) {
         Tile[] ts=new Tile[s.length()];

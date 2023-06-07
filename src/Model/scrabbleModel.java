@@ -27,10 +27,6 @@ public class scrabbleModel extends Observable implements ClientHandler {
         this.clientsServer = new MyServer(serverPort, this);
         this.board = new Board();
         this.bag = Tile.Bag.getBag();
-    }
-
-
-    public void initializeGame() {
         clientsServer.start();
     }
 

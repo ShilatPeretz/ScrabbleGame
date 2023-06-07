@@ -50,12 +50,14 @@ public class MyServer {
 
     private void cleanClientSocket(){
         clientHandler.close();
-        if(!clientSocket.isClosed()) {
-            try {
-                clientSocket.close();
-            } catch (IOException e) {
-                System.out.println("problem cleaning client socket");
-                throw new RuntimeException(e);
+        if(clientSocket != null){
+            if(!clientSocket.isClosed()) {
+                try {
+                    clientSocket.close();
+                } catch (IOException e) {
+                    System.out.println("problem cleaning client socket");
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
