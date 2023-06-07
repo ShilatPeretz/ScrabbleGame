@@ -2,7 +2,9 @@ package common;
 
 import Server.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Player {
@@ -10,8 +12,10 @@ public class Player {
     private Map<Character, Tile> playersTiles;
     private int score;
 
-    public Map<Character,Tile> getPlayersTiles() {
-        return playersTiles;
+    public List<Tile> getPlayersTiles() {
+        List<Tile> ts = new ArrayList<>();
+        playersTiles.forEach((k,v)->ts.add(v));
+        return ts;
     }
 
     public int getScore() {

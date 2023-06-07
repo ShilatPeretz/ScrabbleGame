@@ -15,14 +15,15 @@ public class PlayerTest {
         Tile.Bag bag= Tile.Bag.getBag();
         Player p= new Player("adi",bag);
         p.removeTiles("word",bag);
+        int i=0;
         for(Character c: "word".toCharArray()){
-            if(p.getPlayersTiles().containsKey(c)){
+            if(p.getPlayersTiles().get(i).letter == c){
                 System.out.println("removeTiles is not working well 1!");
             }
         }
         p.removeTiles("test",bag);
         for(Character c: "test".toCharArray()){
-            if(p.getPlayersTiles().containsKey(c)){
+            if(p.getPlayersTiles().get(i).letter == c){
                 System.out.println("removeTiles is not working well 2!");
             }
         }
