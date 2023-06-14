@@ -5,7 +5,7 @@ import Server.Tile;
 public class PlayerTest {
     public static void testcompletePlayersTiles(){
         Tile.Bag b= Tile.Bag.getBag();
-        Player p= new Player("anna",b);
+        Player p= new Player("anna");
         if(p.getPlayersTiles().size()!=7)
         {
             System.out.println("completePlayersTiles Is not working well!");
@@ -13,15 +13,15 @@ public class PlayerTest {
     }
     public static void testRemoveTiles(){
         Tile.Bag bag= Tile.Bag.getBag();
-        Player p= new Player("adi",bag);
-        p.removeTiles("word",bag);
+        Player p= new Player("adi");
+        p.removeTiles("word");
         int i=0;
         for(Character c: "word".toCharArray()){
             if(p.getPlayersTiles().get(i).letter == c){
                 System.out.println("removeTiles is not working well 1!");
             }
         }
-        p.removeTiles("test",bag);
+        p.removeTiles("test");
         for(Character c: "test".toCharArray()){
             if(p.getPlayersTiles().get(i).letter == c){
                 System.out.println("removeTiles is not working well 2!");
@@ -31,7 +31,7 @@ public class PlayerTest {
     public static void testUpdateScore()
     {
         Tile.Bag bag= Tile.Bag.getBag();
-        Player p= new Player("amir",bag);
+        Player p= new Player("amir");
         int i=3;
         int score=p.getScore()+i;
         p.updateScore(i);

@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import Server.Tile.Bag;
 
 public class Player {
     private String name;
     private Map<Character, Tile> playersTiles;
     private int score;
+    private Bag bag;
 
     public List<Tile> getPlayersTiles() {
         List<Tile> ts = new ArrayList<>();
@@ -21,23 +23,24 @@ public class Player {
     public int getScore() {
         return score;
     }
-    public Player(String name, Tile.Bag bag){
+    public Player(String name){
         this.playersTiles=new HashMap<>();
         this.name=name;
         this.score=0;
-        completePlayersTiles(bag);
+        this.bag = Tile.Bag.getBag();;
+        completePlayersTiles();
     }
-    public void completePlayersTiles(Tile.Bag bag){
+    public void completePlayersTiles(){
         while(playersTiles.size()!=7){
             Tile t = bag.getRand();
             playersTiles.put(t.letter, t);
         }
     }
-    public void removeTiles(String word, Tile.Bag bag){
+    public void removeTiles(String word){
         for (char ch : word.toCharArray()){
             playersTiles.remove(ch);
         }
-        completePlayersTiles(bag);
+        completePlayersTiles();
     }
     public void updateScore(int i)
     {

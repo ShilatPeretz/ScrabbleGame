@@ -8,25 +8,25 @@ import javafx.beans.property.SimpleStringProperty;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class scrabbleModel extends Observable implements ClientHandler {
     //data
     private String bookScrabbleServerHostname = "localhost";
     private Board board;
-    private Bag bag;
     private int serverPort = 6667;
     private int clientServerPort = 6668;
     private MyServer clientsServer;
     //"file1.txt", "file2.txt", "file3.txt", "file4.txt", "file5.txt", "file6.txt", "file7.txt"
     private List<String> dictionarybooks = Arrays.asList("file1.txt");
-    public Map<String, Player> players = new HashMap<>();
+    public Map<String, Integer> players = new HashMap<>();
 
 
     //functions
     public scrabbleModel() {
-        this.clientsServer = new MyServer(serverPort, this);
+        this.clientsServer = new MyServer(clientServerPort, this);
         this.board = new Board();
-        this.bag = Tile.Bag.getBag();
         clientsServer.start();
     }
 
@@ -48,20 +48,25 @@ public class scrabbleModel extends Observable implements ClientHandler {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "Q");
-        if (!queryServer(query))
+        if (!queryServer(query)) {
+            players.put(playerName, -1);
             return;
+        }
         System.out.println("got to here - only need to place word on board and get score");
-        int score = board.tryPlaceWord(word);
-        players.get(playerName).updateScore(score);
-        updatePlayersTiles(playerName, word);
+        int score = placeWord(word);
+        players.put(playerName, score);
         setChanged();
         notifyObservers();
+    }
+
+    private synchronized int placeWord(Word word){
+        return board.tryPlaceWord(word);
     }
 
     private boolean queryServer(String query) {
         String result = "";
         try {
-            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, clientServerPort);
+            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, serverPort);
             PrintWriter BookScrabbleOut = new PrintWriter(bookScrabbleServerSocket.getOutputStream(), true);
             BufferedReader BookScrabbleIn = new BufferedReader(new InputStreamReader(bookScrabbleServerSocket.getInputStream()));
             BookScrabbleOut.println(query);
@@ -80,26 +85,21 @@ public class scrabbleModel extends Observable implements ClientHandler {
         // -1 -> indicates word is not legal
         // 0 -> indicates word can`t be placed on the board
         String query = BuildQueryFromWord(word, "C");
-        if(!queryServer(query))
+        if (!queryServer(query)) {
+            players.put(playerName, -1);
             return;
+        }
         int score = board.tryPlaceWord(word)*2;
-        players.get(playerName).updateScore(score);
-        updatePlayersTiles(playerName, word);
+        players.put(playerName, score);
         setChanged();
         notifyObservers();
     }
 
     //players functions
-    private void updatePlayersTiles(String playername, Word word){
-        players.get(playername).removeTiles(word.getWord(), bag);
-    }
-
-
     public void addPlayer(String name){
         if(players.size()==4)
             return;
-        Player player = new Player(name, bag);
-        players.put(name,player);
+        players.put(name,0);
         setChanged();
         notifyObservers();
     }
@@ -111,11 +111,12 @@ public class scrabbleModel extends Observable implements ClientHandler {
         BufferedReader ClientIn = new BufferedReader(new InputStreamReader(inFromclient));
         String userInput;
 
-        try {
-            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, clientServerPort);
+        try { //TODO: update remote player fields
+            Socket bookScrabbleServerSocket = new Socket(bookScrabbleServerHostname, serverPort);
             PrintWriter BookScrabbleOut = new PrintWriter(bookScrabbleServerSocket.getOutputStream(), true);
             BufferedReader BookScrabbleIn = new BufferedReader(new InputStreamReader(bookScrabbleServerSocket.getInputStream()));
             while ((userInput = ClientIn.readLine()) != null) {
+                System.out.println("in hereree");
                 System.out.println(userInput);
                 BookScrabbleOut.println(userInput);
                 ClientOut.println(BookScrabbleIn.readLine());

@@ -14,21 +14,21 @@ public class scrabbleViewModel extends Observable implements Observer {
     private scrabbleModel scrabbleModel;
     public SimpleMapProperty<String, Player> playersProperty; //holds the score for each player
 
-    private Board game_board; //the board that is connected to the view
-
     public SimpleStringProperty playerName; //the current playing player
     private Word word; //holds current word in case of challenge
 
     public scrabbleViewModel(scrabbleModel scrabbleModel) {
         this.scrabbleModel = scrabbleModel;
         playersProperty = new SimpleMapProperty<>();
-        game_board = new Board();
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if(o == scrabbleModel){
-            playersProperty.get(playerName.get()).updateScore(scrabbleModel.players.get(playerName.get()).getScore());
+            //update current player score
+            //adding -1 score means the word doesn't exist
+            playersProperty.get(playerName.get()).updateScore(scrabbleModel.players.get(playerName.get()));
+            playersProperty.get(playerName.get()).removeTiles(word.getWord());
         }
     }
 
@@ -37,7 +37,10 @@ public class scrabbleViewModel extends Observable implements Observer {
     }
 
     public void query (){
-        scrabbleModel.TryAddWordToBoard(createWord(), playerName.get());
+        scrabbleModel.TryAddWordToBoard(word, playerName.get());
+    }
+    public void endGame(){
+        scrabbleModel.finalizeGame();
     }
 
     private Word createWord() {
