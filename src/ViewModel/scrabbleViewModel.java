@@ -13,13 +13,13 @@ import javafx.beans.property.SimpleStringProperty;
 public class scrabbleViewModel extends Observable implements Observer {
     private scrabbleModel scrabbleModel;
     public SimpleMapProperty<String, Player> playersProperty; //holds the score for each player
-
+    private SimpleStringProperty wordInfo;
     public SimpleStringProperty playerName; //the current playing player
     private Word word; //holds current word in case of challenge
 
     public scrabbleViewModel(scrabbleModel scrabbleModel) {
-        this.scrabbleModel = scrabbleModel;
         playersProperty = new SimpleMapProperty<>();
+        this.scrabbleModel = scrabbleModel;
     }
 
     @Override
@@ -37,18 +37,20 @@ public class scrabbleViewModel extends Observable implements Observer {
     }
 
     public void query (){
-        scrabbleModel.TryAddWordToBoard(word, playerName.get());
+        scrabbleModel.TryAddWordToBoard(word,playerName.get());
     }
     public void endGame(){
         scrabbleModel.finalizeGame();
     }
 
     private Word createWord() {
-        //checks the boards data and creates new word
         //TODO: implement this function
-        int col=0, row=0;
-        boolean vertical = true;
-        Tile[] ts = new Tile[4];
-        return new Word(ts, row, col, vertical);
+        String w=word.getWord()+" "+word.Get_row()+" "+word.Get_col()+" ";
+        if(word.Get_vertical())
+            w=w+"t";
+        else
+            w=w+"f";
+        wordInfo.set(w);
+        return new Word(word.Get_Tiles(),word.Get_row(), word.Get_col(), word.Get_vertical());
     }
 }
