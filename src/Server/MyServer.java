@@ -3,6 +3,8 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyServer {
     private final ClientHandler clientHandler;
@@ -10,8 +12,11 @@ public class MyServer {
     private final int port;
     private Socket clientSocket;
     private volatile boolean stop;
+    public ExecutorService threadPool;
+
 
     public MyServer(int port, ClientHandler clientHandler) {
+        this.threadPool = Executors.newFixedThreadPool(4);
         this.clientHandler = clientHandler;
         this.stop = false;
         this.port = port;
@@ -32,9 +37,15 @@ public class MyServer {
             try {
                 clientSocket = serverSocket.accept();
                 System.out.println("connected");
-                clientHandler.handleClient(clientSocket.getInputStream(),
-                        clientSocket.getOutputStream());
-                cleanClientSocket();
+                threadPool.execute(()->{
+                    try {
+                        this.clientHandler.handleClient(clientSocket.getInputStream(),
+                                clientSocket.getOutputStream());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    cleanClientSocket();
+                });
             } catch (IOException e) {
                 // No need for, throw new RuntimeException(e);
             }

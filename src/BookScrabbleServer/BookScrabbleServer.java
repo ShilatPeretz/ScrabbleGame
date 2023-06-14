@@ -10,9 +10,10 @@ import java.util.Scanner;
 
 public class BookScrabbleServer {
     private final MyServer gameServer;
+    private int serverPort = 6667;
 
     public BookScrabbleServer(){
-        this.gameServer = new MyServer(6668, new BookScrabbleHandler());
+        this.gameServer = new MyServer(serverPort, new BookScrabbleHandler());
     };
 
     public void start(){
