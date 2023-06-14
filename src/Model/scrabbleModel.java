@@ -27,10 +27,6 @@ public class scrabbleModel extends Observable implements ClientHandler {
         this.clientsServer = new MyServer(serverPort, this);
         this.board = new Board();
         this.bag = Tile.Bag.getBag();
-    }
-
-
-    public void initializeGame() {
         clientsServer.start();
     }
 
@@ -98,9 +94,6 @@ public class scrabbleModel extends Observable implements ClientHandler {
         players.get(playername).removeTiles(word.getWord(), bag);
     }
 
-//    public int getPlayersScore(String playername){
-//        return players.get(playername).getScore();
-//    }
 
     public void addPlayer(String name){
         if(players.size()==4)

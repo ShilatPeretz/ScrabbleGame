@@ -5,25 +5,18 @@ import java.util.Observer;
 import Model.scrabbleModel;
 import Server.Word;
 import common.Player;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class scrabbleViewModel extends Observable {
+public class scrabbleViewModel extends Observable implements Observer {
     private scrabbleModel scrabbleModel;
+    ///hghroghsvshhgrighpnf
     public SimpleMapProperty<String, Player> playersProperty;
     public SimpleStringProperty playerName;
-    public SimpleIntegerProperty score;
-
-    public void addPlayer(){
-        scrabbleModel.addPlayer(playerName.get());
-    }
+    public SimpleIntProperty score;
     @Override
     public void update(Observable o, Object arg) {
-        if(o==scrabbleModel)
-        {
-            playerName.set(scrabbleModel.getPlayers().keySet().toArray()[0].toString());
-        }
+
     }
     public void queryServer(){
         //parse the string given, create a new word with given values
@@ -34,6 +27,6 @@ public class scrabbleViewModel extends Observable {
     }
 
     private void query (){
-        scrabbleModel.CallengeServer();
+        scrabbleModel.CallengeServer()
     }
 }
