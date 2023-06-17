@@ -1,5 +1,6 @@
 package com.example.gui;
 
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -18,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.Console;
 import java.io.IOException;
@@ -99,10 +101,47 @@ public class HelloApplication extends Application {
         letters.setHgap(10);
         letters.setVgap(10);
 
-        // Create buttons representing each letter of the English alphabet
-        TileGUI tl = new TileGUI(TILE_SIZE,TILE_SIZE);
-        letters.add(tl,0,0);
+        // create the submit word button
 
+        Button submitButton = new Button("Submit");
+
+        // Set the button's style
+        submitButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 100px; -fx-pref-height: 40px; -fx-cursor: hand;");
+
+        // Set the button's action
+        submitButton.setOnAction(event -> {
+            // Perform submit action here
+            System.out.println("Submit button clicked!");
+        });
+
+        // Add clicked animation
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), submitButton);
+        scaleTransition.setToX(0.9);
+        scaleTransition.setToY(0.9);
+        scaleTransition.setAutoReverse(true);
+
+        submitButton.setOnMousePressed(event -> {
+            scaleTransition.playFromStart();
+        });
+
+        submitButton.setOnMouseReleased(event -> {
+            scaleTransition.stop();
+            submitButton.setScaleX(1.0);
+            submitButton.setScaleY(1.0);
+        });
+        letters.add(submitButton,8,0);
+
+
+        // Create buttons representing each letter of the English alphabet
+        addTile('X');
+        addTile('Y');
+        addTile('A');
+        addTile('X');
+        addTile('Y');
+        addTile('A');
+        addTile('X');
+        addTile('Y');
+        addTile('A');
         // Add the grid to the bottom of the BorderPane
         root.setBottom(letters);
         letters.setAlignment(Pos.CENTER);
@@ -218,15 +257,12 @@ public class HelloApplication extends Application {
 
         for (int i = 0; i < 7; i++) {
             if(letters_arr[i].equals('0')){
-
-
+                TileGUI tl = new TileGUI(TILE_SIZE,TILE_SIZE,letter);
+                letters.add(tl,i,0);
+                letters_arr[i] = letter;
                 break;
             }
         }
-
-
-
-
     }
 
     public static void main(String[] args) {
